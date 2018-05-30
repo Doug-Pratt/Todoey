@@ -11,10 +11,14 @@ import UIKit
 class ToDoListViewController: UITableViewController {
 
     var itemArray = ["First thing", "Second Thing", "Third Thing"]
+    let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let items = defaults.array(forKey: "ToDoListArray") as? [String] { // checks if item can be retrieved and then assigns
+            itemArray = items
+        }
         
     }
 
@@ -62,9 +66,12 @@ class ToDoListViewController: UITableViewController {
         
         let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
             // what will happen when the user clicks on "Add Item" alert
+            
+            if textField.text != "" {
                     self.itemArray.append(textField.text!)
                     self.tableView.reloadData() // reloads tableview
-            
+                self.defaults.set(self.itemArray, forKey: "ToDoListArray") // stores list in persistent storage
+            }
         }
         
         alert.addTextField { (alertTextField) in
