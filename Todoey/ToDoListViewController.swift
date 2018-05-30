@@ -10,7 +10,7 @@ import UIKit
 
 class ToDoListViewController: UITableViewController {
 
-    let itemArray = ["First thing", "Second Thing", "Third Thing"]
+    var itemArray = ["First thing", "Second Thing", "Third Thing"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,5 +51,32 @@ class ToDoListViewController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true) // row is grey when selected. This deselects it and returns it to white
         
     }
+    
+    //MARK: - Add new items
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField() // initialize blank text field
+        
+        let alert = UIAlertController(title: "Add New Todoey Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) { (action) in
+            // what will happen when the user clicks on "Add Item" alert
+                    self.itemArray.append(textField.text!)
+                    self.tableView.reloadData() // reloads tableview
+            
+        }
+        
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create New Item" // shows in field
+            textField = alertTextField
+            
+        }
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
+        
+    }
+    
 }
 
